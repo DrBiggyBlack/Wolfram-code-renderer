@@ -14,18 +14,21 @@ MainWindow::MainWindow(QWidget *parent) :
     imageGenerator = new ImageCellGenerator;
 
     target = new QRectF(10.0, 20.0, 700.0, 570.0);
-            source = new QRectF(0.0, 0.0, 150.0, 150.0);
+    source = new QRectF(0.0, 0.0, 150.0, 150.0);
 
     connector->timers_connects(timer, imageGenerator);
     connector->imageGenerator_connects(this, imageGenerator);
 
     settingsThread();
-
     installWindowStartConfig();
+
     setWindowTitle("Wolfram code renderer");
 }
 MainWindow::~MainWindow()
 {
+    disconnector->timers_disconnects(timer, imageGenerator);
+    disconnector->imageGenerator_disconnects(this, imageGenerator);
+
     delete imageGenerator;
     delete ui;
 }
@@ -37,43 +40,55 @@ void MainWindow::settingsThread()
 void MainWindow::installWindowStartConfig()
 {
     for(int i = 0; i < imageGenerator->get_currentImage()->height(); i++)
-        for(int j = 0; j < imageGenerator->get_currentImage()->width(); j++)
-            imageGenerator->get_currentImage()->setPixel(i, j, 0);
-
-    QPainter painter(this);
-    painter.drawImage(*target, *imageGenerator->get_currentImage(), *source);
-}
-
-void MainWindow::callRepraint()
-{
-    //qDebug() << "Rep!";
-    int x = 1;
+        for(int c = 0; c < imageGenerator->get_currentImage()->width(); c++)
+            imageGenerator->get_currentImage()->setPixel(c, i, 0);
 
     repaint();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton_StartPainting_clicked()
 {
     emit startCalculateCells();
+    ui->pushButton_StartPainting->setCheckable(false);
+    ui->pushButton_StartPainting->setCheckable(false);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    //qDebug() << "Painting! Event: " << event;
-
     Q_UNUSED(event)
     QPainter painter(this);
 
     painter.drawImage(*target, *imageGenerator->get_currentImage(), *source);
 }
 
+void MainWindow::callRepraint()
+{
+    repaint();
+}
+
 
 ImageCellGenerator::ImageCellGenerator()
 {
     calculateStartImageState();
+    installImageConfig();
+}
+ImageCellGenerator::~ImageCellGenerator()
+{
 
-    image = new QImage(144, 144, QImage::Format_Indexed8);
-    QRgb value;
+}
+
+void ImageCellGenerator::calculateStartImageState()
+{
+    renderingPickture_buffer.resize(sizeSidesPicture);
+    cellPickture.resize(sizeSidesPicture);
+    renderingPickture_buffer.fill(false);
+    cellPickture.fill(false);
+
+    cellPickture[sizeSidesPicture - 1] = true;
+}
+void ImageCellGenerator::installImageConfig()
+{
+    image = new QImage(sizeSidesPicture, sizeSidesPicture, QImage::Format_Indexed8);
 
     value = qRgb(120, 140, 250);
     image->setColor(0, value);
@@ -81,21 +96,12 @@ ImageCellGenerator::ImageCellGenerator()
     value = qRgb(80, 250, 51);
     image->setColor(1, value);
 }
-void ImageCellGenerator::calculateStartImageState()
-{
-    renderingPickture_buffer.resize(numSegmentsPickture);
-    cellPickture.resize(numSegmentsPickture);
-    renderingPickture_buffer.fill(false);
-    cellPickture.fill(false);
-
-    cellPickture[numSegmentsPickture - 1] = true;
-}
 
 void ImageCellGenerator::consolePaint()
 {
-    for(int c = 0; c < sizePickture; c++)
+    for(int c = 0; c < sizeSidesPicture; c++)
     {
-        int pixel = (((cellPickture[c]) == false) ? 0 : 2);
+        size_t pixel = (((cellPickture[c]) == false) ? 0 : 1);
         image->setPixel(c, numberString, pixel);
     }
 
@@ -106,11 +112,11 @@ void ImageCellGenerator::renderingStringImage()
 {
     bool *checkPixelsBuffeer = new bool[3];
 
-    for(int i = 0; i < sizePickture; i++)
+    for(int i = 0; i < sizeSidesPicture; i++)
     {
-        int firstVal = ((i == 0) ? (sizePickture - 1) : (i - 1));
-        int currentVal = i;
-        int thridVal = (i == (sizePickture - 1)) ? 0 : (i + 1);
+        size_t firstVal = ((i == 0) ? (sizeSidesPicture - 1) : (i - 1));
+        size_t currentVal = i;
+        size_t thridVal = (i == (sizeSidesPicture - 1)) ? 0 : (i + 1);
 
         checkPixelsBuffeer[0] = cellPickture[firstVal];
         checkPixelsBuffeer[1] = cellPickture[currentVal];
@@ -119,7 +125,7 @@ void ImageCellGenerator::renderingStringImage()
         renderingPickture_buffer[i] = currentRull->calculateCelluarPixel(checkPixelsBuffeer);
     }
 
-    for(int i = 0; i < sizePickture; i++) cellPickture[i] = renderingPickture_buffer[i];
+    for(int i = 0; i < sizeSidesPicture; i++) cellPickture[i] = renderingPickture_buffer[i];
 }
 void ImageCellGenerator::paintCellRulles()
 {
@@ -132,12 +138,12 @@ void ImageCellGenerator::paintCellRulles()
 
     for(int i = 0; i != -1; i++)
     {
-        Sleep(100);
-        numberString++;
         renderingStringImage();
         consolePaint();
+        numberString++;
+        Sleep(70);
 
-        if(numberString == sizePickture)
+        if(numberString == sizeSidesPicture)
         {
             numberString = 0;
             printRulesCounter++;

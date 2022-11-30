@@ -115,16 +115,18 @@ class ImageCellGenerator: public QObject
 {
     Q_OBJECT
 
-    int numRules = 5;
-    int numberString = 0;
-    int printRulesCounter = 0;
-    int sizePickture =  128; //width
+    int sizeSidesPicture = 136;
+    size_t numRules = 5;
+    size_t numberString = 0;
+    size_t printRulesCounter = 0;
+    QRgb value;
     QImage *image;
     CellRules *currentRull;
     QVector<CellRules*> rules;
     QVector<bool> cellPickture;
     QVector<bool> renderingPickture_buffer;
 
+    void installImageConfig();
     void calculateStartImageState();
 
     void consolePaint();
@@ -132,8 +134,8 @@ class ImageCellGenerator: public QObject
     void renderingStringImage();
 
 public:
-
     ImageCellGenerator();
+    ~ImageCellGenerator();
 
     QImage *get_currentImage();
 
@@ -175,6 +177,6 @@ public slots:
     void callRepraint();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_StartPainting_clicked();
 };
 #endif
