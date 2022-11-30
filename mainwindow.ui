@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>660</width>
-    <height>660</height>
+    <width>655</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>660</width>
-    <height>660</height>
+    <width>655</width>
+    <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>660</width>
-    <height>660</height>
+    <width>655</width>
+    <height>600</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -35,8 +35,8 @@
    <widget class="QPushButton" name="pushButton_StartPainting">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>590</y>
+      <x>30</x>
+      <y>540</y>
       <width>591</width>
       <height>31</height>
      </rect>
@@ -44,7 +44,7 @@
     <property name="font">
      <font>
       <family>Consolas</family>
-      <pointsize>10</pointsize>
+      <pointsize>12</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -59,7 +59,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>660</width>
+     <width>655</width>
      <height>20</height>
     </rect>
    </property>
