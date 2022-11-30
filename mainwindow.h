@@ -33,81 +33,81 @@ public:
 class CellRules
 {
 public:
-    virtual quint8 calculateCelluarPixel(quint8) = 0;
+    virtual bool calculateCelluarPixel(bool *chekingCells) = 0;
 };
 class Rule30: public CellRules
 {
 public:
-    quint8 calculateCelluarPixel(quint8 pixel) override
+    bool calculateCelluarPixel(bool *chekingCells) override
     {
-        return (pixel == 0) ? 0 :
-                    (pixel == 1) ? 1 :
-                    (pixel == 2) ? 1 :
-                    (pixel == 3) ? 1 :
-                    (pixel == 4) ? 1 :
-                    (pixel == 5) ? 0 :
-                    (pixel == 6) ? 0 :
-                    (pixel == 7) ? 0: 0;
+        if((chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return false;}
+        else if((chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return false;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return false;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return false;}
     }
 };
 class Rule110: public CellRules
 {
 public:
-    quint8 calculateCelluarPixel(quint8 pixel) override
+    bool calculateCelluarPixel(bool *chekingCells) override
     {
-        return (pixel == 0) ? 0 :
-                    (pixel == 1) ? 1 :
-                    (pixel == 2) ? 1 :
-                    (pixel == 3) ? 1 :
-                    (pixel == 4) ? 0 :
-                    (pixel == 5) ? 1 :
-                    (pixel == 6) ? 1 :
-                    (pixel == 7) ? 0: 0;
+        if((chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return false;}
+        else if((chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return false;}
     }
 };
 class Rule120: public CellRules
 {
 public:
-    quint8 calculateCelluarPixel(quint8 pixel) override
+    bool calculateCelluarPixel(bool *chekingCells) override
     {
-        return (pixel == 0) ? 0 :
-                    (pixel == 1) ? 0 :
-                    (pixel == 2) ? 0 :
-                    (pixel == 3) ? 1 :
-                    (pixel == 4) ? 1 :
-                    (pixel == 5) ? 1 :
-                    (pixel == 6) ? 1 :
-                    (pixel == 7) ? 0: 0;
-    }
-};
-class Rule184: public CellRules
-{
-public:
-    quint8 calculateCelluarPixel(quint8 pixel) override
-    {
-        return (pixel == 0) ? 0 :
-                    (pixel == 1) ? 0 :
-                    (pixel == 2) ? 0 :
-                    (pixel == 3) ? 1 :
-                    (pixel == 4) ? 1 :
-                    (pixel == 5) ? 1 :
-                    (pixel == 6) ? 0 :
-                    (pixel == 7) ? 1 : 0;
+        if((chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return false;}
+        else if((chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return false;}
     }
 };
 class Rule225: public CellRules
 {
 public:
-    quint8 calculateCelluarPixel(quint8 pixel) override
+    bool calculateCelluarPixel(bool *chekingCells) override
     {
-        return (pixel == 0) ? 1 :
-                    (pixel == 1) ? 0 :
-                    (pixel == 2) ? 0 :
-                    (pixel == 3) ? 0 :
-                    (pixel == 4) ? 0 :
-                    (pixel == 5) ? 1 :
-                    (pixel == 6) ? 1 :
-                    (pixel == 7) ? 1 : 1;
+        if((chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return true;}
+    }
+};
+class Rule184: public CellRules
+{
+public:
+    bool calculateCelluarPixel(bool *chekingCells) override
+    {
+        if((chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return false;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (chekingCells[2])) {return true;}
+        else if((!chekingCells[0]) && (chekingCells[1]) && (!chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (chekingCells[2])) {return false;}
+        else if((!chekingCells[0]) && (!chekingCells[1]) && (!chekingCells[2])) {return false;}
     }
 };
 
@@ -115,39 +115,34 @@ class ImageCellGenerator: public QObject
 {
     Q_OBJECT
 
-    size_t numRules = 5;
-    size_t numberString = 0;
-    size_t printRulesCounter = 0;
-    size_t numSegmentsPickture =  18;
-    size_t targetStrings =  numSegmentsPickture * 8;
-    quint16 checkingSegmentBuffeer = 0;
+    int numRules = 5;
+    int numberString = 0;
+    int printRulesCounter = 0;
+    int sizePickture =  128; //width
     QImage *image;
-    CellRules *currentRule;
+    CellRules *currentRull;
     QVector<CellRules*> rules;
-    QVector<quint8> cellPickture;
-    QVector<quint8> renderingPickture_buffer;
+    QVector<bool> cellPickture;
+    QVector<bool> renderingPickture_buffer;
 
     void calculateStartImageState();
-    void installImageConfig();
-    void currentRulesControl();
 
     void consolePaint();
+
     void renderingStringImage();
-    quint8 calculateCheckingPixels(quint16 *);
 
 public:
-    ImageCellGenerator();
-    ~ImageCellGenerator();
 
-    QImage* get_currentImage();
+    ImageCellGenerator();
+
+    QImage *get_currentImage();
 
 public slots:
     void paintCellRulles();
 
 signals:
-void callRep();
+    void callRep();
 };
-
 
 namespace Ui {
 class MainWindow;
@@ -180,6 +175,6 @@ public slots:
     void callRepraint();
 
 private slots:
-    void on_pushButton_StartPainting_clicked();
+    void on_pushButton_clicked();
 };
 #endif
