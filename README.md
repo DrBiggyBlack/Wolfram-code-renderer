@@ -1,2 +1,2 @@
 # Wolfram-code-renderer
-Implementation of rendering some Wolfram codes as pixel images
+The main objective of the project is to try to implement an optimized algorithm for rendering Wolfram codes as single-line pixel images.
